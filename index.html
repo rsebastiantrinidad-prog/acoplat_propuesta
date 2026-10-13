@@ -438,6 +438,27 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 .dfoot{margin-top:22px;padding-top:14px;border-top:1px solid var(--line);font-size:.78rem;font-weight:600;color:var(--muted);display:grid;gap:4px}
 
 /* =========================================================
+   Fotos
+   ========================================================= */
+.ph{--ar:4/3;position:relative;isolation:isolate;margin:0;overflow:hidden;border-radius:10px;background:var(--sand);aspect-ratio:var(--ar)}
+.ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:var(--pos,50% 50%);transform:scale(1.07);transition:transform 2s var(--ease)}
+.ph.in img{transform:none}
+.ph::after{content:"";position:absolute;left:0;bottom:0;width:64px;height:3px;background:var(--acc);transform-origin:0 50%;transform:scaleX(0);transition:transform 1.2s var(--ease) .7s}
+.ph.in::after{transform:none}
+.hd-ph{display:grid;gap:30px}
+
+/* fondos: la foto queda detrás del texto, lavada y con los bordes difuminados */
+.has-bg{overflow:clip;isolation:isolate}
+.bg{--m:linear-gradient(180deg,transparent 0,#000 18%,#000 60%,transparent 100%);position:absolute;left:0;right:0;top:0;height:min(100%,620px);z-index:-1;overflow:hidden;pointer-events:none;-webkit-mask-image:var(--m);mask-image:var(--m)}
+.bg.end{--m:linear-gradient(0deg,transparent 0,#000 18%,#000 60%,transparent 100%);top:auto;bottom:0}
+.bg img{position:absolute;left:0;top:-6%;width:100%;height:112%;object-fit:cover;object-position:var(--pos,50% 50%);opacity:0;transition:opacity 1.8s var(--ease)}
+.bg.in img{opacity:var(--o,.22)}
+@supports (animation-timeline:view()){
+  .bg img{animation:bgdrift linear both;animation-timeline:view();animation-range:cover}
+}
+@keyframes bgdrift{from{transform:translateY(-4%)}to{transform:translateY(4%)}}
+
+/* =========================================================
    ≥ 600
    ========================================================= */
 @media (min-width:600px){
@@ -460,6 +481,7 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   .prow select{min-width:160px}
   .days{min-width:108px}
   .doc{padding:44px 48px 48px}
+  .ph{--ar:16/9}
 }
 /* =========================================================
    ≥ 960 (escritorio)
@@ -500,6 +522,11 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
   .steps .n{left:0;top:-72px}
   .sign{grid-template-columns:auto 1fr;column-gap:64px;align-items:end}
   .sign .site{grid-column:2;grid-row:1/4;justify-self:end;align-self:end}
+  .hd-ph{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}
+  .hd-ph.rev .ph{order:-1}
+  .hd-ph h2{font-size:clamp(3rem,5.4vw,4.9rem)}
+  .hd-ph .ph{--ar:4/3}
+  .bg{height:100%}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -569,7 +596,8 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 </section>
 
 <!-- ============ 2 · NEGOCIO ============ -->
-<section class="sec white" id="negocio">
+<section class="sec white has-bg" id="negocio">
+  <div class="bg io" aria-hidden="true" style="--pos:88% 50%"><img src="img/negocio-lineas.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></div>
   <div class="wrap">
     <div class="kicker rv">El negocio</div>
     <h2 class="rv" style="--d:1">Cada equipo se adapta <em>a quien lo usa.</em></h2>
@@ -592,10 +620,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 <!-- ============ 3 · PROBLEMA ============ -->
 <section class="sec paper" id="problema">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker rv">El problema</div>
-      <h2 class="rv" style="--d:1">Cotizar un equipo es <em>armar un rompecabezas.</em></h2>
-      <p class="lead rv" style="--d:2">Con más de 30 artículos posibles por ítem, cada cotización se busca, se combina y se calcula a mano. Y después hay que acordarse de seguirla.</p>
+    <div class="sec-head hd-ph">
+      <div>
+        <div class="kicker rv">El problema</div>
+        <h2 class="rv" style="--d:1">Cotizar un equipo es <em>armar un rompecabezas.</em></h2>
+        <p class="lead rv" style="--d:2">Con más de 30 artículos posibles por ítem, cada cotización se busca, se combina y se calcula a mano. Y después hay que acordarse de seguirla.</p>
+      </div>
+      <figure class="ph rv" style="--d:3;--pos:80% 50%"><img src="img/problema-catalogos.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Un asesor revisa catálogos y planillas técnicas de acoplados sobre su escritorio, con una notebook al lado y equipos en la planta de fondo."></figure>
     </div>
     <div class="two">
       <svg class="radial io" id="radial" viewBox="-80 -14 560 428" role="img" aria-label="Un equipo con 34 artículos opcionales posibles, agrupados en frenos, homologación, rodado, luces, sujeción, hidráulica, accesorios y habilitaciones"></svg>
@@ -612,7 +643,8 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 </section>
 
 <!-- ============ 4 · SOLUCIÓN ============ -->
-<section class="sec white" id="solucion">
+<section class="sec white has-bg" id="solucion">
+  <div class="bg io" aria-hidden="true" style="--pos:55% 50%"><img src="img/solucion-asesor-cliente.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></div>
   <div class="wrap">
     <div class="sec-head">
       <div class="kicker rv">La solución</div>
@@ -688,10 +720,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 <!-- ============ 6 · COTIZADOR ============ -->
 <section class="sec white" id="cotizador">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker rv">Demo 02 · Configurador y cotizador</div>
-      <h2 class="rv" style="--d:1">Solo los opcionales <em>que corresponden.</em></h2>
-      <p class="lead rv" style="--d:2">El sistema filtra por carga, ejes y rodado. Marcá lo que pide el cliente y la cotización se arma sola.</p>
+    <div class="sec-head hd-ph rev">
+      <div>
+        <div class="kicker rv">Demo 02 · Configurador y cotizador</div>
+        <h2 class="rv" style="--d:1">Solo los opcionales <em>que corresponden.</em></h2>
+        <p class="lead rv" style="--d:2">El sistema filtra por carga, ejes y rodado. Marcá lo que pide el cliente y la cotización se arma sola.</p>
+      </div>
+      <figure class="ph rv" style="--d:3;--pos:22% 50%"><img src="img/cotizador-frenos.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Dos personas agachadas revisan el sistema de frenos y el eje de un acoplado."></figure>
     </div>
     <div class="unit rv" id="unit"></div>
     <div class="cfg">
@@ -729,10 +764,13 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 <!-- ============ 7 · SEGUIMIENTO ============ -->
 <section class="sec paper" id="seguimiento">
   <div class="wrap">
-    <div class="sec-head">
-      <div class="kicker rv">Demo 03 · Seguimiento</div>
-      <h2 class="rv" style="--d:1">Ninguna cotización <em>sin seguimiento.</em></h2>
-      <p class="lead rv" style="--d:2">Cada cotización tiene estado y fecha del último contacto. Lo que lleva 5 días o más sin respuesta aparece primero.</p>
+    <div class="sec-head hd-ph">
+      <div>
+        <div class="kicker rv">Demo 03 · Seguimiento</div>
+        <h2 class="rv" style="--d:1">Ninguna cotización <em>sin seguimiento.</em></h2>
+        <p class="lead rv" style="--d:2">Cada cotización tiene estado y fecha del último contacto. Lo que lleva 5 días o más sin respuesta aparece primero.</p>
+      </div>
+      <figure class="ph rv" style="--d:3;--pos:30% 50%"><img src="img/seguimiento-llamada.webp" width="1672" height="941" loading="lazy" decoding="async" alt="Un asesor habla por teléfono con un cliente mientras revisa una cotización impresa sobre su escritorio."></figure>
     </div>
     <div class="kpis rv" id="kpis">
       <div class="kpi"><span class="fl">Cotizado</span><b data-k="tot">—</b><small>últimos 30 días</small></div>
@@ -754,7 +792,8 @@ input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;bac
 </section>
 
 <!-- ============ 8 · CIERRE ============ -->
-<section class="sec white" id="contacto">
+<section class="sec white has-bg" id="contacto">
+  <div class="bg end io" aria-hidden="true" style="--pos:70% 50%"><img src="img/cierre-acuerdo.webp" alt="" width="1672" height="941" loading="lazy" decoding="async"></div>
   <div class="wrap">
     <div class="kicker rv">Próximos pasos</div>
     <h2 class="rv" style="--d:1">Vos vendés. <em>El sistema ordena.</em></h2>
